@@ -1,0 +1,108 @@
+#include <Servo.h>
+
+byte servoPinRight = 9;
+byte servoPinLeft = 10;
+byte servoPinTopRight = 11;
+byte servoPinTopLeft = 12;
+byte servoPinTopBottom = 13;
+byte servoPinSide = 14;
+Servo servoRight;
+Servo servoLeft;
+Servo servoTopRight;
+Servo servoTopLeft;
+Servo servoTopBottom;
+Servo servoSide;
+
+long kp=0;
+long kd=0;
+int length;// actual depth
+int errorl;
+int prevl;
+int derrorl;
+int suml;
+void setup() {
+Serial.begin(9600);
+}
+void lengthRSonar(){
+  return x;
+}
+void lengthFSonar(){
+  return y;
+}
+void  sonarError(){
+ x = lengthRSonar();
+ errorl = 32-2x;
+ derrorl = errorl - prevl;
+ prevl = errorl;
+ suml += errorl;
+ terrorl = kp * errorl + kd * derrorl + ki*suml;
+ return terrorl;
+}
+void Notcollide(){
+   y =  lengthFSonar();
+   if(y<=5){
+    back();
+   }
+}
+
+//************************
+void turnCondition(){
+  if(terrorl==0){
+    front()
+   }
+  else
+  {
+    ThrustPID()
+  }
+}
+//***********************
+/*void front(){
+   // Set signal value, which should be between 1100 and 1900</p>
+ servoRight.writeMicroseconds(1600); // Send signal to ESC.<br />
+ servoLeft.writeMicroseconds(1600);
+ servoTopRight.writeMicroseconds(1550);
+ servoTopLeft.writeMicroseconds(1550);
+ servoTopBottom.writeMicroseconds(1550);}*/ 
+ 
+/*void leftPID(){
+servoSide.writeMicroseconds(1500); // Send signal to ESC.<br />
+ servoRight.writeMicroseconds(1500);
+ servoLeft.writeMicroseconds(1500-terrorl);
+ servoTopRight.writeMicroseconds(1550);
+ servoTopLeft.writeMicroseconds(1550);
+ servoTopBottom.writeMicroseconds(1550);
+    }*/
+
+/*void rightPID(){
+ servoSide.writeMicroseconds(1500); // Send signal to ESC.<br />
+ servoLeft.writeMicroseconds(1500);
+ servoRight.writeMicroseconds(1500+terrorl);
+ servoTopRight.writeMicroseconds(1550);
+ servoTopLeft.writeMicroseconds(1550);
+ servoTopBottom.writeMicroseconds(1550);
+      }*/
+void ThrustPID(){
+ servoSide.writeMicroseconds(1500); // Send signal to ESC.<br />
+ servoLeft.writeMicroseconds(1500-terrorl);
+ servoRight.writeMicroseconds(1500+terrorl);
+ servoTopRight.writeMicroseconds(1550);
+ servoTopLeft.writeMicroseconds(1550);
+ servoTopBottom.writeMicroseconds(1550);
+      }
+
+void back(){
+ servoRight.writeMicroseconds(1400); // Send signal to ESC.<br />
+ servoLeft.writeMicroseconds(1400);
+ servoTopRight.writeMicroseconds(1550);
+ servoTopLeft.writeMicroseconds(1550);
+ servoTopBottom.writeMicroseconds(1550);
+  }
+
+
+//*********************
+void loop{
+  Notcollide()
+  sonarError()
+  turnCondition()
+}
+
